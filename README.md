@@ -34,6 +34,7 @@ Solução para o desafio de Arquiteto de Software que implementa um sistema de c
 - [Autenticação](#autenticação)
 - [Testes](#testes)
 - [Monitoramento e Observabilidade](#monitoramento-e-observabilidade)
+- [Dívidas Arquiteturais Conhecidas](#dívidas-arquiteturais-conhecidas)
 - [Evoluções Futuras](#evoluções-futuras)
 
 ---
@@ -68,8 +69,8 @@ C4Context
 
     Person(merchant, "Comerciante", "Usuário que registra lançamentos e consulta o saldo diário")
     System(cashflow, "CashFlow System", "Registra lançamentos de débito e crédito e consolida o saldo diário por data")
-    SystemExt(rabbitmq, "RabbitMQ", "Broker de mensagens para desacoplamento entre escrita e consolidação")
-    SystemExt(postgres, "PostgreSQL", "Banco de dados relacional para persistência dos dados")
+    System_Ext(rabbitmq, "RabbitMQ", "Broker de mensagens para desacoplamento entre escrita e consolidação")
+    System_Ext(postgres, "PostgreSQL", "Banco de dados relacional para persistência dos dados")
 
     Rel(merchant, cashflow, "Registra lançamentos / Consulta saldo", "HTTPS/REST")
     Rel(cashflow, rabbitmq, "Publica eventos de lançamento")
@@ -884,7 +885,101 @@ dotnet test --collect:"XPlat Code Coverage"
 
 ---
 
-## Evoluções Futuras
+## Dívidas Arquiteturais Conhecidas
+
+Esta seção registra **trade-offs assumidos** e **limitações reconhecidas** no estado atual do código — diferente de "Evoluções Futuras", que lista melhorias planejadas. Aqui estão problemas que sabemos existir hoje, com sintoma observável, risco em produção e direção de correção.
+
+### 1. Domain Event acoplado ao Integration Event
+
+**Sintoma:** `CashEntryCreatedEvent` mora em `CashFlow.Domain/Events/` e é publicado **direto** no RabbitMQ (`OutboxPublisherBackgroundService.cs:56`) e desserializado no Worker (`CashEntryCreatedConsumerHostedService.cs:54`). O Worker referencia `CashFlow.Domain` apenas para conhecer o tipo do evento.
+
+**Risco:** Refatoração interna do domínio (renomear campo, mudar tipo) quebra contrato com mensagens já enfileiradas / em trânsito. Impossível versionar o wire contract de forma independente do modelo de domínio.
+
+**Direção:** Criar um projeto `CashFlow.Contracts` com `IntegrationEvents/CashEntryCreatedV1` (DTO chato e estável). O Outbox publisher passa a mapear Domain Event → Integration Event antes de gravar o payload. Worker referencia apenas `Contracts`, não `Domain`.
+
+### 2. Outbox publisher não suporta múltiplas réplicas da API
+
+**Sintoma:** `OutboxPublisherBackgroundService.cs:46-50` faz `SELECT WHERE Status = Pending` sem `FOR UPDATE SKIP LOCKED`, sem partitioning por instância e sem leader election.
+
+**Risco:** A seção "Requisitos Não Funcionais" afirma que a API escala horizontalmente atrás de um load balancer — mas se houver duas réplicas da API, ambas leem as mesmas linhas Pending e publicam mensagens **duplicadas** no broker.
+
+**Direção:** Trocar a query por `SELECT ... FOR UPDATE SKIP LOCKED LIMIT N` dentro de uma transação curta, ou usar pattern de claim atômico (`UPDATE outbox_messages SET claimed_by = @instance WHERE status = Pending RETURNING ...`).
+
+### 3. Worker não é idempotente em redelivery
+
+**Sintoma:** `CashEntryCreatedConsumerHostedService.cs:81` faz `BasicNack(requeue: true)` em qualquer exceção. `DailyBalance.Apply` (`src/CashFlow.Domain/Entities/DailyBalance.cs:23-29`) **soma** o valor sem verificar se aquele `EntryId` já foi processado.
+
+**Risco:** Em qualquer redelivery (crash do Worker no meio do processamento, timeout, requeue manual) o saldo é dobrado. Como a entrega é at-least-once por design do RabbitMQ, isso é uma corrupção silenciosa esperando para acontecer.
+
+**Direção:** Tabela `processed_events (event_id PK, processed_at)` com `INSERT ... ON CONFLICT DO NOTHING` antes do `Apply`. Se o INSERT falhar pelo conflito, mensagem é ack-ada sem reprocessar. Combinar com DLQ para mensagens que falharam N vezes.
+
+### 4. Cache in-memory inconsistente em multi-instância (e invalidação no Worker é código morto)
+
+**Sintoma:** `IMemoryCache` é local ao processo. `GetDailyBalanceByDateQueryHandler.cs:23` cacheia o saldo na API. `CashEntryCreatedConsumerHostedService.cs:72` chama `cache.Remove(...)` no **processo do Worker** — esse cache não é o mesmo da API.
+
+**Risco duplo:**
+1. O `cache.Remove` no Worker nunca invalida a entrada que o usuário está lendo na API. Hoje funciona apenas porque o TTL de 30s expira sozinho.
+2. Se a API rodar com 2+ réplicas, cada uma tem seu próprio cache local — uma instância pode estar com saldo atualizado e outra não, dependendo de quem leu antes.
+
+**Direção:** Migrar para Redis distribuído (`IDistributedCache`). Worker invalida pela mesma chave; todas as réplicas da API leem do mesmo cache.
+
+### 5. Schema gerenciado via `EnsureCreated()` em ambos os serviços
+
+**Sintoma:** `CashFlow.Api/Program.cs:88-90` e `CashFlow.Worker/Program.cs:13-17` chamam `db.Database.EnsureCreatedAsync()` no startup.
+
+**Risco:**
+1. Race condition na primeira subida: API e Worker tentam criar tabelas concorrentemente.
+2. `EnsureCreated` não evolui schema. Adicionar uma coluna em produção exige drop do banco.
+3. Worker tem permissão de criar tabelas, contradizendo o princípio de menor privilégio (Worker só precisa ler/escrever em `daily_balances`).
+
+**Direção:** Migrations EF Core formais (`dotnet ef migrations add Initial`), executadas por um job dedicado no Compose (ou no startup **só** da API com lock advisory). Remover `EnsureCreated` de ambos os Programs.
+
+### 6. Topologia do RabbitMQ declarada em três lugares
+
+**Sintoma:** `ExchangeDeclare/QueueDeclare/QueueBind` aparecem em:
+- `RabbitMqTopologyInitializer.cs:23-25`
+- `OutboxPublisherBackgroundService.cs:37-39`
+- `CashEntryCreatedConsumerHostedService.cs:43-45`
+
+**Risco:** É idempotente, então hoje não quebra. Mas qualquer mudança (renomear fila, trocar exchange type) exige editar três pontos sincronizados, com risco de configurações divergentes.
+
+**Direção:** Centralizar no `RabbitMqTopologyInitializer` (que já existe) e remover do publisher e do consumer — ambos podem assumir que a topologia foi declarada antes de eles subirem (DI registration order já garante isso).
+
+### 7. Conexão RabbitMQ sem reconexão explícita nem publisher confirms
+
+**Sintoma:** `RabbitMqConnectionFactory.cs:17-25` não define `AutomaticRecoveryEnabled` explicitamente, não há retry policy no `CreateConnection`, e o publisher não usa `ConfirmSelect` / `WaitForConfirmsOrDie` antes de marcar a Outbox como `Published`.
+
+**Risco:** Se o broker reiniciar, conexão pode degradar silenciosamente. Sem publisher confirms, um `BasicPublish` retorna sem garantia de que o broker aceitou a mensagem — o publisher marca `Published` para uma mensagem que talvez nunca chegou à fila.
+
+**Direção:** Habilitar recovery explicitamente (`AutomaticRecoveryEnabled = true`, `NetworkRecoveryInterval`), envolver `CreateConnection` em política Polly com retry exponencial, e habilitar publisher confirms (`channel.ConfirmSelect()` + `channel.WaitForConfirmsOrDie(timeout)` antes de `MarkAsPublished()`).
+
+### 8. Rate limit por IP é ineficaz atrás de proxy
+
+**Sintoma:** `CashFlow.Api/Program.cs:24-33` particiona por `context.Connection.RemoteIpAddress`. Não há `UseForwardedHeaders` configurado.
+
+**Risco:** Em qualquer deploy real (atrás de load balancer, ingress controller, CDN), `RemoteIpAddress` é o IP do proxy → todas as requisições caem na mesma partição → o limite global vira 100 req/min **compartilhados entre todos os clientes**, virando um DoS auto-infligido.
+
+**Direção:** Adicionar `app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor, KnownNetworks = ..., KnownProxies = ... })` antes do `UseRateLimiter`. Idealmente, particionar por `sub` do JWT autenticado em vez de IP.
+
+### 9. Tratamento de erro inconsistente entre controllers
+
+**Sintoma:** `EntriesController.cs:22-30` usa `try/catch (ArgumentException)` para retornar 400. Demais controllers (`DailyBalancesController`, `OutboxController`, `AuthController`) não têm o mesmo tratamento. Não há `ExceptionHandlerMiddleware` global nem `ProblemDetails` padronizado.
+
+**Risco:** Exceções de domínio em outros endpoints vazam como 500 com stack trace exposto. Formato de resposta de erro varia: `{ "error": "..." }` em uns, default ASP.NET em outros.
+
+**Direção:** Substituir `ArgumentException` por `DomainException` específica do projeto. Middleware central converte `DomainException` → 400 com `ProblemDetails` (RFC 7807) e demais exceções → 500 sanitizado. Remover try/catch das controllers.
+
+### 10. Sem observabilidade end-to-end
+
+**Sintoma:** Sem OpenTelemetry, sem logs estruturados (apenas `ILogger` default), sem correlation ID propagado entre API → RabbitMQ → Worker. Não há métricas customizadas além das nativas do ASP.NET.
+
+**Risco:** Em incidente, não dá para responder "qual requisição da API gerou esta mensagem que falhou no Worker?" sem inspeção manual + timestamps. Não há SLI mensurável para a latência fim-a-fim do fluxo de lançamento.
+
+**Direção:** OpenTelemetry com `ActivitySource` na API, propagar `traceparent` via header AMQP (`BasicProperties.Headers`) na publicação da Outbox, extrair no Worker e continuar a trace. Exporter OTLP para Tempo/Jaeger/Datadog. Serilog com sink Elasticsearch/Loki para logs estruturados.
+
+---
+
+
 
 ### Melhorias de produção
 
