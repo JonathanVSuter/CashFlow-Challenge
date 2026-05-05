@@ -46,86 +46,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GetCashEntriesQueryHandler.cs",
-              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
-              "RelativeDocumentMoniker": "src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
-              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
-              "RelativeToolTip": "src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAUwBwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T11:01:54.429Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\appsettings.json",
-              "RelativeDocumentMoniker": "src\\CashFlow.Api\\appsettings.json",
-              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\appsettings.json",
-              "RelativeToolTip": "src\\CashFlow.Api\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-05T11:01:24.685Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\appsettings.json",
-              "RelativeDocumentMoniker": "src\\CashFlow.Worker\\appsettings.json",
-              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\appsettings.json",
-              "RelativeToolTip": "src\\CashFlow.Worker\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-05-05T11:01:16.225Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Program.cs",
-              "RelativeDocumentMoniker": "src\\CashFlow.Api\\Program.cs",
-              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Program.cs",
-              "RelativeToolTip": "src\\CashFlow.Api\\Program.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T11:00:34.69Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "OutboxController.cs",
-              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Controllers\\OutboxController.cs",
-              "RelativeDocumentMoniker": "src\\CashFlow.Api\\Controllers\\OutboxController.cs",
-              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Controllers\\OutboxController.cs",
-              "RelativeToolTip": "src\\CashFlow.Api\\Controllers\\OutboxController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T10:59:59.564Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\Program.cs",
-              "RelativeDocumentMoniker": "src\\CashFlow.Worker\\Program.cs",
-              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\Program.cs",
-              "RelativeToolTip": "src\\CashFlow.Worker\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T10:58:07.7Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -143,8 +65,77 @@
               "Name": "ST:130:0:{75c83ab3-5264-45e8-ad32-5c8a41ad477d}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GetCashEntriesQueryHandler.cs",
+              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
+              "RelativeDocumentMoniker": "src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
+              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
+              "RelativeToolTip": "src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAywBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T11:01:54.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\CashFlow.Api\\appsettings.json",
+              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\appsettings.json",
+              "RelativeToolTip": "src\\CashFlow.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-05T11:01:24.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\CashFlow.Worker\\appsettings.json",
+              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\appsettings.json",
+              "RelativeToolTip": "src\\CashFlow.Worker\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-05T11:01:16.225Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Program.cs",
+              "RelativeDocumentMoniker": "src\\CashFlow.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Program.cs",
+              "RelativeToolTip": "src\\CashFlow.Api\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABMAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T11:00:34.69Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OutboxController.cs",
+              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Controllers\\OutboxController.cs",
+              "RelativeDocumentMoniker": "src\\CashFlow.Api\\Controllers\\OutboxController.cs",
+              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Api\\Controllers\\OutboxController.cs",
+              "RelativeToolTip": "src\\CashFlow.Api\\Controllers\\OutboxController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T10:59:59.564Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\Program.cs",
+              "RelativeDocumentMoniker": "src\\CashFlow.Worker\\Program.cs",
+              "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Worker\\Program.cs",
+              "RelativeToolTip": "src\\CashFlow.Worker\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-05T10:58:07.7Z"
             },
             {
               "$type": "Document",
@@ -156,8 +147,7 @@
               "RelativeToolTip": "src\\CashFlow.Api\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAB0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T10:57:29.428Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T10:57:29.428Z"
             },
             {
               "$type": "Document",
@@ -169,8 +159,7 @@
               "RelativeToolTip": "src\\CashFlow.Domain\\Entities\\CashEntry.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T10:57:23.618Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T10:57:23.618Z"
             },
             {
               "$type": "Document",
@@ -182,8 +171,7 @@
               "RelativeToolTip": "src\\CashFlow.Domain\\Common\\Entity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-05T10:57:21.603Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-05T10:57:21.603Z"
             }
           ]
         }

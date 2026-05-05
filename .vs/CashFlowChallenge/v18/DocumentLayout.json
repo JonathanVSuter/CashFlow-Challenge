@@ -46,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -65,6 +65,14 @@
               "Name": "ST:130:0:{75c83ab3-5264-45e8-ad32-5c8a41ad477d}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "GetCashEntriesQueryHandler.cs",
@@ -72,7 +80,7 @@
               "RelativeDocumentMoniker": "src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
               "ToolTip": "C:\\Users\\jonathan.suter\\Downloads\\Arquiteto Software\\CashFlow-Challenge\\src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
               "RelativeToolTip": "src\\CashFlow.Application\\Features\\CashEntries\\Queries\\GetCashEntries\\GetCashEntriesQueryHandler.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAywBwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAADwvxwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-05T11:01:54.429Z",
               "EditorCaption": ""

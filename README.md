@@ -67,7 +67,7 @@ C4Context
     title Sistema de Controle de Fluxo de Caixa
 
     Person(merchant, "Comerciante", "Usuário que registra lançamentos e consulta o saldo diário")
-    System(cashflow, "CashFlow System", "Registra lançamentos de débito e crédito; consolida o saldo diário por data")
+    System(cashflow, "CashFlow System", "Registra lançamentos de débito e crédito e consolida o saldo diário por data")
     SystemExt(rabbitmq, "RabbitMQ", "Broker de mensagens para desacoplamento entre escrita e consolidação")
     SystemExt(postgres, "PostgreSQL", "Banco de dados relacional para persistência dos dados")
 
