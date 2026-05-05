@@ -68,8 +68,8 @@ C4Context
 
     Person(merchant, "Comerciante", "Usuário que registra lançamentos e consulta o saldo diário")
     System(cashflow, "CashFlow System", "Registra lançamentos de débito e crédito e consolida o saldo diário por data")
-    SystemExt(rabbitmq, "RabbitMQ", "Broker de mensagens para desacoplamento entre escrita e consolidação")
-    SystemExt(postgres, "PostgreSQL", "Banco de dados relacional para persistência dos dados")
+    System_Ext(rabbitmq, "RabbitMQ", "Broker de mensagens para desacoplamento entre escrita e consolidação")
+    System_Ext(postgres, "PostgreSQL", "Banco de dados relacional para persistência dos dados")
 
     Rel(merchant, cashflow, "Registra lançamentos / Consulta saldo", "HTTPS/REST")
     Rel(cashflow, rabbitmq, "Publica eventos de lançamento")
