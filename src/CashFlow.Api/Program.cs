@@ -17,7 +17,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHealthChecks();
 
 builder.Services.AddCashFlowApplication();
-builder.Services.AddCashFlowInfrastructure(builder.Configuration, addOutboxPublisher: true, addRabbitConsumer: false);
+builder.Services.AddCashFlowInfrastructure(builder.Configuration, addOutboxPublisher: false, addRabbitConsumer: true);
 
 builder.Services.AddRateLimiter(options =>
 {
@@ -49,8 +49,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateLifetime = true
     };
 });
-builder.Services.AddAuthorization();
-
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "CashFlow Challenge", Version = "v1" });

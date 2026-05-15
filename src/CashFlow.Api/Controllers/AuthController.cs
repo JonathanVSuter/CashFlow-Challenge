@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using CashFlow.Api.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,7 +15,8 @@ public sealed class AuthController : ControllerBase
     private readonly IConfiguration _configuration;
     public AuthController(IConfiguration configuration) => _configuration = configuration;
 
-    [HttpPost("token")]
+    [AllowAnonymous]
+    [HttpPost("token")]    
     public IActionResult Token([FromBody] LoginRequest request)
     {
         if (request.Username != "admin" || request.Password != "admin123") return Unauthorized();

@@ -15,8 +15,13 @@ public sealed class GetCashEntriesQueryHandler : IQueryHandler<GetCashEntriesQue
         var entries = _dbContext.CashEntries.AsNoTracking();
         if (query.Date.HasValue)
         {
-            var start = query.Date.Value.ToDateTime(TimeOnly.MinValue);
-            var end = query.Date.Value.AddDays(1).ToDateTime(TimeOnly.MinValue);
+            var start = new DateTimeOffset(
+                query.Date.Value.ToDateTime(TimeOnly.MinValue),
+                TimeSpan.Zero);
+
+            var end = new DateTimeOffset(
+                query.Date.Value.AddDays(1).ToDateTime(TimeOnly.MinValue),
+                TimeSpan.Zero);
             entries = entries.Where(x => x.OccurredAt >= start && x.OccurredAt < end);
         }
 

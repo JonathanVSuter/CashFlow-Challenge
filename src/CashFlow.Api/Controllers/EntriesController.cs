@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CashFlow.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/entries")]
 public sealed class EntriesController : ControllerBase
-{
-    [Authorize]
+{    
     [HttpPost]
     public async Task<IActionResult> Create(
         [FromServices] ICommandHandler<CreateCashEntryCommand, CashEntryDto> handler,
