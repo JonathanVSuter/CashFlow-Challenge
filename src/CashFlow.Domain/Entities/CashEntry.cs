@@ -16,7 +16,7 @@ public sealed class CashEntry : Entity
         Type = type;
         Amount = amount;
         Description = description.Trim();
-        OccurredAt = occurredAt;
+        OccurredAt = EnsureUtc(occurredAt);
         CreatedAt = DateTime.UtcNow;
     }
 
@@ -25,4 +25,13 @@ public sealed class CashEntry : Entity
     public string Description { get; private set; } = string.Empty;
     public DateTime OccurredAt { get; private set; }
     public DateTime CreatedAt { get; private set; }
+    private static DateTime EnsureUtc(DateTime dateTime)
+    {
+        return dateTime.Kind switch
+        {
+            DateTimeKind.Utc => dateTime,
+            DateTimeKind.Local => dateTime.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(dateTime, DateTimeKind.Utc)
+        };
+    }
 }
